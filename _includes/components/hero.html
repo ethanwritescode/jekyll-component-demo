@@ -1,0 +1,60 @@
+{%- comment -%}
+Hero Component
+Usage:
+  {% include components/hero.html
+    title="Welcome to Our Site"
+    subtitle="Create amazing experiences"
+    background_image="/path/to/bg.jpg"
+    background_color="#fff"
+    cta_label="Get Started"
+    cta_href="/page"
+  %}
+
+Variables:
+  - title (required): Hero title
+  - subtitle (optional): Hero subtitle
+  - background_image (optional): Background image URL
+  - background_color (optional): Background color (default: #f5f5f5)
+  - cta_label (optional): Call-to-action button label
+  - cta_href (optional): Call-to-action link
+  - height (optional): "sm" | "md" | "lg" (default: lg)
+  - class (optional): Additional CSS classes
+{%- endcomment -%}
+
+{%- assign hero_title = include.title -%}
+{%- assign hero_subtitle = include.subtitle -%}
+{%- assign hero_bg_image = include.background_image -%}
+{%- assign hero_bg_color = include.background_color | default: "#f5f5f5" -%}
+{%- assign hero_cta_label = include.cta_label -%}
+{%- assign hero_cta_href = include.cta_href -%}
+{%- assign hero_height = include.height | default: "lg" -%}
+{%- assign hero_class = include.class -%}
+
+{%- capture hero_style -%}
+background-color: {{ hero_bg_color }};
+{%- if hero_bg_image %} background-image: url('{{ hero_bg_image }}'); background-size: cover; background-position: center;{% endif %}
+{%- endcapture -%}
+
+<section class="hero hero-{{ hero_height }}{% if hero_class %} {{ hero_class }}{% endif %}" style="{{ hero_style | strip }}">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    {%- if hero_title -%}
+      <h1 class="hero-title">{{ hero_title }}</h1>
+    {%- endif -%}
+
+    {%- if hero_subtitle -%}
+      <p class="hero-subtitle">{{ hero_subtitle }}</p>
+    {%- endif -%}
+
+    {%- if hero_cta_label and hero_cta_href -%}
+      <div class="hero-cta">
+        {% include components/button.html
+          label=hero_cta_label
+          href=hero_cta_href
+          variant="primary"
+          size="lg"
+        %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>

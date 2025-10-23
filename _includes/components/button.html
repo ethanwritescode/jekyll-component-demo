@@ -1,0 +1,37 @@
+{%- comment -%}
+Button Component
+Usage:
+  {% include components/button.html
+    label="Click me"
+    href="#"
+    variant="primary"
+    size="md"
+  %}
+
+Variables:
+  - label (required): Button text
+  - href (optional): Link destination, if not provided creates a <button> element
+  - variant (optional): "primary" | "secondary" | "outline" (default: primary)
+  - size (optional): "sm" | "md" | "lg" (default: md)
+  - disabled (optional): true/false
+  - class (optional): Additional CSS classes
+{%- endcomment -%}
+
+{%- assign button_label = include.label -%}
+{%- assign button_href = include.href -%}
+{%- assign button_variant = include.variant | default: "primary" -%}
+{%- assign button_size = include.size | default: "md" -%}
+{%- assign button_disabled = include.disabled | default: false -%}
+{%- assign button_class = include.class -%}
+
+{%- capture button_classes -%}
+btn btn-{{ button_variant }} btn-{{ button_size }}
+{%- if button_disabled %} btn-disabled{% endif %}
+{%- if button_class %} {{ button_class }}{% endif %}
+{%- endcapture -%}
+
+{%- if button_href -%}
+  <a href="{{ button_href }}" class="{{ button_classes | strip }}">{{ button_label }}</a>
+{%- else -%}
+  <button class="{{ button_classes | strip }}"{% if button_disabled %} disabled{% endif %}>{{ button_label }}</button>
+{%- endif -%}

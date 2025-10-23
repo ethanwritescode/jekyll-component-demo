@@ -1,0 +1,54 @@
+{%- comment -%}
+Card Component
+Usage:
+  {% include components/card.html
+    title="Card Title"
+    description="Card description text"
+    image="/path/to/image.jpg"
+    footer="Footer content"
+  %}
+    Optional content inside
+  {% endinclude %}
+
+Variables:
+  - title (optional): Card title
+  - description (optional): Card description
+  - image (optional): Image URL
+  - footer (optional): Footer content
+  - class (optional): Additional CSS classes
+  - Content between tags is rendered in the card body
+{%- endcomment -%}
+
+{%- assign card_title = include.title -%}
+{%- assign card_description = include.description -%}
+{%- assign card_image = include.image -%}
+{%- assign card_footer = include.footer -%}
+{%- assign card_class = include.class -%}
+
+<div class="card{% if card_class %} {{ card_class }}{% endif %}">
+  {%- if card_image -%}
+    <img src="{{ card_image }}" alt="Card image" class="card-image">
+  {%- endif -%}
+
+  <div class="card-content">
+    {%- if card_title -%}
+      <h3 class="card-title">{{ card_title }}</h3>
+    {%- endif -%}
+
+    {%- if card_description -%}
+      <p class="card-description">{{ card_description }}</p>
+    {%- endif -%}
+
+    {%- if include.content -%}
+      <div class="card-body">
+        {{ include.content }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if card_footer -%}
+    <div class="card-footer">
+      {{ card_footer }}
+    </div>
+  {%- endif -%}
+</div>
